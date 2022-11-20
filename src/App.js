@@ -13,12 +13,26 @@ import {
 function App() {
   const [newName, setNewName] = useState("");
   const [newAge, setNewAge] = useState(0);
+  const [newKat, setNewKat] = useState("");
 
   const [users, setUsers] = useState([]);
   const usersCollectionRef = collection(db, "users");
 
   const createUser = async () => {
-    await addDoc(usersCollectionRef, { name: newName, age: Number(newAge) });
+    //console.log('create')
+    let timestamp = new Date()
+    await addDoc(usersCollectionRef, { 
+      name: newName, 
+      age: Number(newAge),
+      kat: newKat,
+      timestamp: timestamp
+     });
+    getUsers()
+  };
+
+  const refresh = async () => {
+    //console.log('create')
+    getUsers();
   };
 
   const updateUser = async (id, age) => {
@@ -28,21 +42,29 @@ function App() {
   };
 
   const deleteUser = async (id) => {
+    //console.log('Lösche User '+id)
     const userDoc = doc(db, "users", id);
     await deleteDoc(userDoc);
+    getUsers();
   };
 
-  useEffect(() => {
-    const getUsers = async () => {
-      const data = await getDocs(usersCollectionRef);
-      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
+  const getUsers = async () => {
+    const data = await getDocs(usersCollectionRef);
+    setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  };
 
+  const setKat = async (e) => {
+    //setKat = (e)
+    console.log (e)
+  }
+
+  useEffect(() => {
     getUsers();
   }, []);
 
   return (
     <div className="App">
+    
       <input
         placeholder="Name..."
         onChange={(event) => {
@@ -56,33 +78,33 @@ function App() {
           setNewAge(event.target.value);
         }}
       />
+      
+      <label for="cars">Kat: </label>
 
-      <button onClick={createUser}> Create User</button>
-      {users.map((user) => {
-        return (
-          <div>
-            {" "}
-            <h1>Name: {user.name}</h1>
-            <h1>Age: {user.age}</h1>
-            <button
-              onClick={() => {
-                updateUser(user.id, user.age);
-              }}
-            >
-              {" "}
-              Increase Age
-            </button>
-            <button
-              onClick={() => {
-                deleteUser(user.id);
-              }}
-            >
-              {" "}
-              Delete User
-            </button>
-          </div>
-        );
-      })}
+      <select name="kat" id="kat" onChange={(e) => setNewKat(e.target.value)}>
+        <option value="o">O</option>
+        <option value="ho">HO</option>
+        <option value="ft">FT</option>
+        <option value="za">ZA</option>
+      </select>
+    
+    <br></br>
+    <button onClick={createUser}> Create User</button>
+    <br></br>
+    <button onClick={refresh}> Refresh</button>
+
+      {users.map((user, index) => {
+        let newId = index+1
+        return ( <div key={user.id}>
+            <h1>#{newId} - {user.name} 
+            <span>({user.age})</span>
+            <span>{user.kat}</span>
+            <button onClick={ ()=>{ deleteUser (user.id)} }>Delete User</button>
+            </h1>
+          </div> )
+        })
+      }
+
     </div>
   );
 }

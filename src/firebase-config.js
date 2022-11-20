@@ -2,15 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBG_9s2JJDUeBLtMenyPtIBsVLupa8vRB8",
-  authDomain: "fir-tutorial-ad573.firebaseapp.com",
-  projectId: "fir-tutorial-ad573",
-  storageBucket: "fir-tutorial-ad573.appspot.com",
-  messagingSenderId: "459866772432",
-  appId: "1:459866772432:web:b029523d67a8c9f1981fd5",
-  measurementId: "G-2R62T7YE0E",
+  apiKey: "AIzaSyCtW4wRkk9RJUE3YMKLA9XdwVkejOfX68M",
+  authDomain: "react-az.firebaseapp.com",
+  projectId: "react-az",
+  storageBucket: "react-az.appspot.com",
+  messagingSenderId: "539211936151",
+  appId: "1:539211936151:web:09dff13f5d0b7cc33914d2"
 };
-
 const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
