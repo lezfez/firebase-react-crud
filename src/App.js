@@ -31,7 +31,7 @@ function App() {
   };
 
   const refresh = async () => {
-    //console.log('create')
+    console.log('create')
     getUsers();
   };
 
@@ -79,7 +79,7 @@ function App() {
         }}
       />
       
-      <label for="cars">Kat: </label>
+      <label htmlFor="cars">Kat: </label>
 
       <select name="kat" id="kat" onChange={(e) => setNewKat(e.target.value)}>
         <option value="o">O</option>
@@ -96,11 +96,11 @@ function App() {
       {users.map((user, index) => {
         let newId = index+1
         return ( <div key={user.id}>
-            <h1>#{newId} - {user.name} 
+            <h1>#{newId} - {user.name}</h1>
+            <p><span>{user.id}</span>
             <span>({user.age})</span>
-            <span>{user.kat}</span>
-            <button onClick={ ()=>{ deleteUser (user.id)} }>Delete User</button>
-            </h1>
+            <span>{user.kat}</span></p>
+            <button onClick={ ()=>{ deleteUser (user.id)} }>Lösche {user.name}</button>
           </div> )
         })
       }
